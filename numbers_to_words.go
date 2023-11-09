@@ -6,17 +6,48 @@ import (
 	"fmt"
 )
 
+var teen_words [7]string
+var ty_words []string
+
+func init_vars() {
+	teen_words = [7]string{"Thir", "Four", "Fif", "Six", "Seven", "Eigh", "Nin"}
+	ty_words = append(append(ty_words, "Twen"), teen_words[:]...)
+}
+
 func main() {
 	fmt.Print("Enter a 2 digit number: ")
 	var number int
 	result := "Invalid number"
-	fmt.Scan(&number)
+	_, err := fmt.Scanf("%d", &number)
+	if err != nil {
+		fmt.Println("Invalid input; not int;")
+		return
+	}
+	if !_validate_input(number) {
+		return
+	}
+	init_vars()
 	if number >= 0 && number <= 9 {
 		result = get_word_of_single_digit(number)
 	} else if number <= 99 {
 		result = get_word_for_two_digit(number)
 	}
 	fmt.Printf("Answer for %d is %s", number, result)
+}
+
+func _validate_input(input int) bool {
+	if _validate_number_of_digits(input) == false {
+		fmt.Println("Only 2 digit number allowed")
+		return false
+	}
+	return true
+}
+
+func _validate_number_of_digits(input int) bool {
+	if input > 99 || input < 0 {
+		return false
+	}
+	return true
 }
 
 func get_word_of_single_digit(number int) string {
